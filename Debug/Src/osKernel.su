@@ -1,0 +1,14 @@
+C:/users/user/ihatecoding/led/chip_headers/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
+C:/users/user/ihatecoding/led/chip_headers/CMSIS/Include/core_cm4.h:1814:22:__NVIC_SetPriority	16	static
+../Src/osKernel.c:43:6:osKernelStackInit	16	static
+../Src/osKernel.c:66:9:osKernelAddThreads	24	static,ignoring_inline_asm
+../Src/osKernel.c:88:6:osKernelInit	4	static
+../Src/osKernel.c:93:6:osKernelLaunch	16	static
+../Src/osKernel.c:110:29:SysTick_Handler	0	static,ignoring_inline_asm
+../Src/osKernel.c:140:6:osSchedulerLaunch	4	static,ignoring_inline_asm
+../Src/osKernel.c:163:6:osThreadYield	4	static
+../Src/osKernel.c:173:6:osSchedulerRoundRobin	8	static
+../Src/osKernel.c:183:6:tim2_1hz_interrupt_init	8	static
+../Src/osKernel.c:195:6:osSemaphoreInit	16	static
+../Src/osKernel.c:200:6:osSemaphoreSet	16	static,ignoring_inline_asm
+../Src/osKernel.c:205:6:osSemaphoreWait	16	static,ignoring_inline_asm

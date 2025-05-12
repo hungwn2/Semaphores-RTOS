@@ -33,34 +33,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := timebase2
+BUILD_ARTIFACT_NAME := spinlockSem
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-timebase2.elf \
+spinlockSem.elf \
 
 MAP_FILES += \
-timebase2.map \
+spinlockSem.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-timebase2.list \
+spinlockSem.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: timebase2.elf secondary-outputs
+main-build: spinlockSem.elf secondary-outputs
 
 # Tool invocations
-timebase2.elf timebase2.map: $(OBJS) $(USER_OBJS) C:\Users\User\ihatecoding\timebase2\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "timebase2.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\User\ihatecoding\timebase2\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="timebase2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+spinlockSem.elf spinlockSem.map: $(OBJS) $(USER_OBJS) C:\Users\User\ihatecoding\spinlockSem\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "spinlockSem.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\User\ihatecoding\spinlockSem\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spinlockSem.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -69,14 +69,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-timebase2.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "timebase2.list"
+spinlockSem.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "spinlockSem.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout timebase2.elf timebase2.list timebase2.map
+	-$(RM) default.size.stdout spinlockSem.elf spinlockSem.list spinlockSem.map
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

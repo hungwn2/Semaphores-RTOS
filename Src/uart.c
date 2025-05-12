@@ -15,6 +15,7 @@ uint16_t compute_uart_bd(uint32_t periph_clk, uint32_t baudrate);
 static void uart_set_baudrate(uint32_t periph_clk, uint32_t baudrate);
 static void uart_write(int ch);
 
+//have io write to uart
 int __io_putchar(int ch){
 	uart_write(ch);
 	return ch;

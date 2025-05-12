@@ -19,57 +19,63 @@
 #include "led.h"
 #include <stdio.h>
 #include <stdint.h>
+#include "osKernel.h"
+typedef uint32_t TaskProfiler;
+TaskProfiler Task0_Profiler,Task1_Profiler,Task2_Profiler, pTask1_Profiler, pTask2_Profiler;
+#define QUANTA 2
 void motor_run(void);
 void valve_open(void);
 void valve_close(void);
 void motor_stop(void);
-
-#include "stm32f4xx.h"
-#if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
-#endif
+int32_t semaphore1, semaphore2;
 
 
-int motor_main(void){
+
+void task3(void){
+	pTask1_Profiler++;
+}
+void task0(void){
 	while(1){
-		motor_run();
-		delay(1);
-		motor_stop();
-		delay(1);
+		Task0_Profiler++;
+		//osThreadYield();
 	}
 }
-int valve_main(void){
+void task1(void){
 	while(1){
+		osSemaphoreWait(&semaphore1);
 		valve_open();
-		delay(1);
-		valve_close();
-		delay(1);
+		osSemaphoreSet(&semaphore1);
 	}
 }
-int main(void)
-{
-	uint32_t volatile start=0U;
-
-	led_init();
-	uart_tx_init();
-	timebase_init();
-
-	if (start){
-		motor_main();
-	}
-	else{
-		valve_main();
-	}
+void task2(void){
 	while(1){
-		printf("Hello from stm32 \n\r");
+		osSemaphoreWait(&semaphore2);
+		motor_run();
+		osSemaphoreSet(&semaphore2);
+
 	}
-    /* Loop forever */
+}
+int main(void){
+	//initialize kernel, and add threads
+
+	uart_tx_init();
+	tim2_1hz_interrupt_init();
+	osSemaphoreInit(&semaphore1, 1);
+	osSemaphoreInit(&semaphore2, 0);
+	osKernelInit();
+	osKernelAddThreads(&task0, &task1, &task2);
+	osKernelLaunch(QUANTA);
+
 }
 
+void TIM2_IRQHandler(void){
 
+	TIM2->SR &=~SR_UIF;
+	pTask2_Profiler++;
+}
 void motor_run(void)
 {
-	printf("Motor is starting \n");
+	printf("M \n\r");
 
 }
 
@@ -84,3 +90,5 @@ void valve_close(void){
 void motor_stop(void){
 	printf("motor stopping \n");
 }
+
+
